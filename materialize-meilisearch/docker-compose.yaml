@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  db:
+    image: getmeili/meilisearch:latest
+    ports:
+      - "7700:7700"
+    environment:
+      - MEILI_MASTER_KEY=meilisearch
+      - MEILI_NO_ANALYTICS=true
+    healthcheck:
+      test: curl -u meilisearch:meilisearch -s http://localhost:7700 >/dev/null || exit 1
+      interval: 1s
+      timeout: 1s
+      retries: 60
+    networks:
+      - flow-test
+
+networks:
+  flow-test:
+    name: flow-test
+    external: true
